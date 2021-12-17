@@ -214,6 +214,9 @@ let localFormData = {
 
 function setDataForm() {
   localFormData = JSON.parse(localStorage.getItem('formData'));
+  emailv.value = localFormData.email;
+  inputName.value = localFormData.inputname;
+  inputMessage.value = 'THERE IS NOT A MESSAGE - localFormData.message';
 }
 
 function populateStorage() {
@@ -230,7 +233,7 @@ if (!localStorage.getItem('formData')) {
 function validateEmail() {
   if (emailv.value.trim().match(/[a-z]/g)) {
     errorSpan.textContent = 'Email field should not have capital letters.';
-    errorSpan.classList.add('visible');
+    errorSpan.classList.add('visible1');
     emailv.classList.add('field-error');
     return false;
   }
@@ -238,7 +241,7 @@ function validateEmail() {
 }
 
 inputName.addEventListener('input', () => {
-  localFormData.name = 'ERROR';
+  localFormData.name = inputName.value;
   populateStorage();
 });
 
@@ -259,7 +262,7 @@ contactForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   if (validateEmail()) {
-    contactForm.submit();
+    ContactForm.submit();
   }
 });
 
