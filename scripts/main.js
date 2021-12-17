@@ -45,7 +45,7 @@ Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, wh
 took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
 but also the leap into electronic typesetting, remaining essent`, ['html', 'bootstrap', 'Ruby'],
   'https://gabyse1.github.io/repo-portfolio', 'https://github.com/gabyse1/repo-portfolio');
-special.id = 'special';
+special.id = 'specials';
 cards.push(special);
 
 const titles = ['Data Dashboard Healthcare', 'Website Portfolio', 'Profesional Art Printing Data'];
@@ -219,48 +219,49 @@ function setDataForm() {
 function populateStorage() {
   localStorage.setItem('formData', JSON.stringify(localFormData));
   setDataForm();
+}
 
-  function validateEmail() {
-    if (emailv.value.trim().match(/[A-Z]/g)) {
-      errorSpan.textContent = 'Email field should not have capital letters.';
-      errorSpan.classList.add('visible');
-      emailv.classList.add('field-error');
-      return false;
-    }
-    return true;
+if (!localStorage.getItem('formData')) {
+  populateStorage();
+} else {
+  setDataForm();
+}
+
+function validateEmail() {
+  if (emailv.value.trim().match(/[a-z]/g)) {
+    errorSpan.textContent = 'Email field should not have capital letters.';
+    errorSpan.classList.add('visible');
+    emailv.classList.add('field-error');
+    return false;
   }
+  return true;
+}
 
-  if (!localStorage.getItem('formData')) {
-    populateStorage();
-  } else {
-    setDataForm();
+inputName.addEventListener('input', () => {
+  localFormData.name = 'ERROR';
+  populateStorage();
+});
+
+emailv.addEventListener('input', () => {
+  errorSpan.textContent = '';
+  errorSpan.classList.remove('visible');
+  emailv.classList.remove('field-error');
+  localFormData.email = emailv.value;
+  populateStorage();
+});
+
+inputMessage.addEventListener('input', () => {
+  localFormData.message = inputMessage.value;
+  populateStorage();
+});
+
+contactForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  if (validateEmail()) {
+    contactForm.submit();
   }
+});
 
-  inputName.addEventListener('input', () => {
-    localFormData.name = inputName.value;
-    populateStorage();
-  });
-
-  emailv.addEventListener('input', () => {
-    errorSpan.textContent = '';
-    errorSpan.classList.remove('visible');
-    emailv.classList.remove('field-error');
-    localFormData.email = emailv.value;
-    populateStorage();
-  });
-
-  inputMessage.addEventListener('input', () => {
-    localFormData.message = inputMessage.value;
-    populateStorage();
-  });
-
-  contactForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    if (validateEmail()) {
-      contactForm.submit();
-    }
-  });
-
-  // Create work cards automatically
-  render();
+// Create work cards automatically
+render();
